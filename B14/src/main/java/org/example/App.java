@@ -8,10 +8,8 @@ import entity.VeTau;
 import receiptTable.Receipt;
 import receiptTable.TicketTable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.sql.Connection;
+import java.util.*;
 
 /**
  * Hello world!
@@ -54,10 +52,45 @@ public class App {
                     createHD();
                     break;
                 case 6:
+                    sortName();
+                    break;
+                case 7:
+                    sortQuantity();
+                    break;
+                case 8:
                     System.exit(0);
             }
 
         } while (true);
+    }
+
+    private static void sortName() {
+        List<HoaDon> allListHD = HoaDonDAO.getAllHoaDon();
+        Collections.sort(allListHD, new Comparator<HoaDon>() {
+            @Override
+            public int compare(HoaDon o1, HoaDon o2) {
+                return o1.getNguoiMuaVe().getTen().compareTo(o2.getNguoiMuaVe().getTen());
+            }
+        });
+        for (HoaDon hoaDon: allListHD
+             ) {
+            System.out.println(hoaDon.toString());
+        }
+
+    }
+    private static void sortQuantity() {
+        List<HoaDon> allListHD = HoaDonDAO.getAllHoaDon();
+        Collections.sort(allListHD, new Comparator<HoaDon>() {
+            @Override
+            public int compare(HoaDon o1, HoaDon o2) {
+                return o2.getQuantity()-o1.getQuantity();
+            }
+        });
+        for (HoaDon hoaDon: allListHD
+        ) {
+            System.out.println(hoaDon.toString());
+        }
+
     }
 
     private static void createTrainTickets() {
@@ -257,7 +290,11 @@ public class App {
                                 price += ticketNum * veTau.getDonGia();
                                 ticketTotle += ticketNum;
                                 ticketTables.add(new TicketTable(veTau, ticketNum));
-                                hoaDonList.add(new HoaDon(nguoiMuaVe, veTau, ticketNum));
+                                HoaDon hoaDon = new HoaDon();
+                                hoaDon.setVeTauId(veTau.getId());
+                                hoaDon.setUserId(nguoiMuaVe.getId());
+                                hoaDon.setQuantity(ticketNum);
+                                hoaDonList.add(hoaDon);
                                 break;
                             }
                             System.out.print("Không có vé nào có ID vừa nhập, vui lòng nhập lại: ");
@@ -312,7 +349,9 @@ public class App {
         System.out.println("3.in ra danh sach nguoi mua ve:");
         System.out.println("4.in ra danh sach ve:");
         System.out.println("5.Nhap hoa don.");
-        System.out.println("6.Thoát");
+        System.out.println("6.Sap xep theo ten .");
+        System.out.println("6.Sap xep theo so luong giam dan.");
+        System.out.println("7.Thoát");
         int functionChoice = 0;
         boolean check = true;
         do {

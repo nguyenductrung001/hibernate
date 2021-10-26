@@ -1,10 +1,13 @@
 package entity;
 
+import lombok.Data;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
-
+@Data
 @Entity(name = "VETAU")
 public class VeTau implements Serializable {
 
@@ -13,6 +16,7 @@ public class VeTau implements Serializable {
     private int id;
     @Column(name = "LoaiGhe")
     private String loaiGhe;
+    @ToString.Exclude
     @OneToMany(mappedBy = "veTau", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<HoaDon> hoaDons;
     @Column(name = "DonGia")

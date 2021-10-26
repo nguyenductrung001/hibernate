@@ -16,7 +16,7 @@ public class HoaDonDAO {
         Session session = HibernateUtils.getSessionFactory().openSession();
         try {
 
-            session.beginTransaction();
+            session.getTransaction().begin();
             for (HoaDon hd: listHD
                  ) {
                 session.save(hd);
@@ -31,7 +31,7 @@ public class HoaDonDAO {
             session.close();
         }
     }
-    public static List<HoaDon> getAllHoaDon() {
+    public  static List<HoaDon> getAllHoaDon() {
         String sql = "From HOADON";
         Session session = HibernateUtils.getSessionFactory().openSession();
         try {

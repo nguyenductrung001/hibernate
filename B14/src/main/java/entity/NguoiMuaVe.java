@@ -1,10 +1,13 @@
 package entity;
 
+import lombok.Data;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
-
+@Data
 @Entity(name = "NguoiMuaVe")
 public class NguoiMuaVe implements Serializable {
 //    private static int AUTO_ID = 100;
@@ -24,17 +27,10 @@ public class NguoiMuaVe implements Serializable {
     @Column(name = "loaiNguoiMua")
     private String loaiNguoiMua;
 
-
+    @ToString.Exclude
     @OneToMany(mappedBy = "nguoiMuaVe", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<HoaDon> hoaDons;
 
-    public List<HoaDon> getHoaDons() {
-        return hoaDons;
-    }
-
-    public void setHoaDons(List<HoaDon> hoaDons) {
-        this.hoaDons = hoaDons;
-    }
 
     private final static String MuaLe = "mua le";
     private final static String MuaTapThe= "mua tap the";
